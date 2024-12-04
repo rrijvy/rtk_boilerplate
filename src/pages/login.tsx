@@ -12,7 +12,7 @@ const Login = () => {
 
   return (
     <div className="flex min-h-screen">
-      <div className="flex-1 relative">
+      <div className="flex-1 relative h-screen">
         <img
           src={LoginBackground}
           alt="Login Background"
