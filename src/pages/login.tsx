@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import LoginBackground from "../assets/images/login-background.png";
 
 const Login = () => {
@@ -59,9 +59,9 @@ const Login = () => {
               />
             </div>
             <div className="mb-6 text-right">
-              <a href="/forgot-password" className="text-sm text-blue-500 hover:underline">
+              <Link to="reset-password" className="text-sm text-blue-500 hover:underline">
                 Forget Password?
-              </a>
+              </Link>
             </div>
           </form>
           <div className="relative flex items-center my-10">
