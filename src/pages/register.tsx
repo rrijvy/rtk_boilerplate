@@ -1,22 +1,11 @@
 import { useState } from "react";
 import SignupBackground from "../assets/images/signup-background.png";
 
-const StepIndicator = ({
-  currentStep,
-  totalSteps,
-}: {
-  currentStep: number;
-  totalSteps: number;
-}) => {
+const StepIndicator = ({ currentStep, totalSteps }: { currentStep: number; totalSteps: number }) => {
   return (
     <div className="flex justify-center mb-3">
       {[...Array(totalSteps)].map((_, index) => (
-        <div
-          key={index}
-          className={`h-2 w-4 mx-2 rounded-full ${
-            index < currentStep ? "bg-green-500" : "bg-gray-300"
-          }`}
-        ></div>
+        <div key={index} className={`h-2 w-4 mx-2 rounded-full ${index < currentStep ? "bg-green-500" : "bg-gray-300"}`}></div>
       ))}
     </div>
   );
@@ -64,21 +53,16 @@ const Register = () => {
 
   return (
     <div className="flex min-h-screen">
-      <div className="flex-1 flex justify-center items-center bg-white p-6">
-        <div className="w-full max-w-md bg-white p-10 rounded-xl shadow-sm">
-          <h1 className="text-3xl font-semibold mb-2 text-gray-800 text-center">
-            {getHeaderText()}
-          </h1>
+      <div className="flex-1 flex justify-center items-center p-6">
+        <div className="w-full max-w-md p-10 rounded-xl shadow-sm">
+          <h1 className="text-3xl font-semibold mb-2 text-gray-800 text-center">{getHeaderText()}</h1>
 
           <StepIndicator currentStep={step} totalSteps={5} />
 
           <form onSubmit={handleSubmit}>
             {step === 1 && (
               <div className="mb-5 text-left">
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-700"
-                >
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                   Email
                 </label>
                 <input
@@ -94,10 +78,7 @@ const Register = () => {
             )}
             {step === 2 && (
               <div className="mb-5 text-left">
-                <label
-                  htmlFor="confirmationCode"
-                  className="block text-sm font-medium text-gray-700"
-                >
+                <label htmlFor="confirmationCode" className="block text-sm font-medium text-gray-700">
                   Confirmation Code
                 </label>
                 <input
@@ -114,29 +95,21 @@ const Register = () => {
             {step === 3 && (
               <div>
                 <div className="mb-5 text-left">
-                  <label
-                    htmlFor="name"
-                    className="block text-sm font-medium text-gray-700"
-                  >
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                     Full Name
                   </label>
                   <input
                     type="text"
                     id="name"
                     value={userDetails.name}
-                    onChange={(e) =>
-                      setUserDetails({ ...userDetails, name: e.target.value })
-                    }
+                    onChange={(e) => setUserDetails({ ...userDetails, name: e.target.value })}
                     placeholder="Enter your full name"
                     required
                     className="w-full mt-2 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
                 <div className="mb-5 text-left">
-                  <label
-                    htmlFor="Phone Number"
-                    className="block text-sm font-medium text-gray-700"
-                  >
+                  <label htmlFor="Phone Number" className="block text-sm font-medium text-gray-700">
                     Phone Number
                   </label>
                   <input
@@ -155,10 +128,7 @@ const Register = () => {
                   />
                 </div>
                 <div className="mb-5 text-left">
-                  <label
-                    htmlFor="password"
-                    className="block text-sm font-medium text-gray-700"
-                  >
+                  <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                     Password
                   </label>
                   <input
@@ -181,10 +151,7 @@ const Register = () => {
             {step === 4 && (
               <div>
                 <div className="mb-5 text-left">
-                  <label
-                    htmlFor="nameOnCard"
-                    className="block text-sm font-medium text-gray-700"
-                  >
+                  <label htmlFor="nameOnCard" className="block text-sm font-medium text-gray-700">
                     Name on Card
                   </label>
                   <input
@@ -203,10 +170,7 @@ const Register = () => {
                 </div>
 
                 <div className="mb-5 text-left">
-                  <label
-                    htmlFor="cardNumber"
-                    className="block text-sm font-medium text-gray-700"
-                  >
+                  <label htmlFor="cardNumber" className="block text-sm font-medium text-gray-700">
                     Card Number
                   </label>
                   <input
@@ -225,10 +189,7 @@ const Register = () => {
                 </div>
                 <div className="grid grid-cols-2 gap-4 mb-6">
                   <div className="mb-5">
-                    <label
-                      htmlFor="expiryDate"
-                      className="block text-sm font-medium text-gray-700"
-                    >
+                    <label htmlFor="expiryDate" className="block text-sm font-medium text-gray-700">
                       Expiry Date
                     </label>
                     <input
@@ -247,10 +208,7 @@ const Register = () => {
                   </div>
 
                   <div className="mb-5">
-                    <label
-                      htmlFor="cvv"
-                      className="block text-sm font-medium text-gray-700"
-                    >
+                    <label htmlFor="cvv" className="block text-sm font-medium text-gray-700">
                       CVV
                     </label>
                     <input
@@ -281,19 +239,13 @@ const Register = () => {
                     required
                     className="mr-2"
                   />
-                  <span className="text-sm text-gray-700">
-                    I accept the terms of service & privacy policy
-                  </span>
+                  <span className="text-sm text-gray-700">I accept the terms of service & privacy policy</span>
                 </label>
               </div>
             )}
             <div className="flex justify-between items-center">
               {step > 1 && (
-                <button
-                  type="button"
-                  onClick={() => setStep(step - 1)}
-                  className="text-blue-500 hover:underline"
-                >
+                <button type="button" onClick={() => setStep(step - 1)} className="text-blue-500 hover:underline">
                   Previous
                 </button>
               )}
@@ -319,10 +271,7 @@ const Register = () => {
               )}
 
               {step === 5 && (
-                <button
-                  type="submit"
-                  className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
-                >
+                <button type="submit" className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600">
                   Complete Registration
                 </button>
               )}
@@ -331,11 +280,7 @@ const Register = () => {
         </div>
       </div>
       <div className="flex-1 relative h-screen">
-        <img
-          src={SignupBackground}
-          alt="Signup Background"
-          className="w-full h-full object-cover opacity-90"
-        />
+        <img src={SignupBackground} alt="Signup Background" className="w-full h-full object-cover opacity-90" />
       </div>
     </div>
   );

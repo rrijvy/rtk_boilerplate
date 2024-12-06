@@ -1,0 +1,7 @@
+# Ignore artifacts:
+.git
+.husky
+.hintrc
+node_modules
+public
+dist

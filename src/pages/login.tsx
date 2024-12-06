@@ -13,11 +13,7 @@ const Login = () => {
   return (
     <div className="flex min-h-screen">
       <div className="flex-1 relative h-screen">
-        <img
-          src={LoginBackground}
-          alt="Login Background"
-          className="w-full h-full object-cover opacity-90"
-        />
+        <img src={LoginBackground} alt="Login Background" className="w-full h-full object-cover opacity-90" />
       </div>
 
       <div className="flex-1 flex justify-center items-center bg-white p-6">
@@ -25,26 +21,16 @@ const Login = () => {
           <div className="absolute top-4 right-3">
             <p>
               Not a member?
-              <a
-                href="/register"
-                className="text-sm text-blue-500 hover:underline pl-2"
-              >
+              <a href="/register" className="text-sm text-blue-500 hover:underline pl-2">
                 Register now
               </a>
             </p>
           </div>
-          <h1 className="text-3xl font-semibold mb-4 text-gray-800 text-center">
-            Hello Again!
-          </h1>
-          <p className="text-sm text-gray-500 mb-6 text-center">
-            Welcome back you have been missed!
-          </p>
+          <h1 className="text-3xl font-semibold mb-4 text-gray-800 text-center">Hello Again!</h1>
+          <p className="text-sm text-gray-500 mb-6 text-center">Welcome back you have been missed!</p>
           <form onSubmit={handleSubmit}>
             <div className="mb-5 text-left">
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                 Email
               </label>
               <input
@@ -58,10 +44,7 @@ const Login = () => {
               />
             </div>
             <div className="mb-6 text-left">
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                 Password
               </label>
               <input
@@ -75,10 +58,7 @@ const Login = () => {
               />
             </div>
             <div className="mb-6 text-right">
-              <a
-                href="/forgot-password"
-                className="text-sm text-blue-500 hover:underline"
-              >
+              <a href="/forgot-password" className="text-sm text-blue-500 hover:underline">
                 Recovery Password
               </a>
             </div>
@@ -95,9 +75,8 @@ const Login = () => {
             <div className="flex-grow border-t border-gray-300"></div>
           </div>
           <div className="mt-6 flex justify-center">
-            <button className="flex items-center justify-center bg-gradient-to-r from-cyan-500 to-blue-500 text-white py-3 px-5 rounded shadow">
-              <i className="fa-brands fa-google"></i>
-            </button>
+            <i className="fa-brands fa-google cursor-pointer text-3xl text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></i>
+            <i className="fa-brands fa-twitter cursor-pointer text-3xl text-sky-500 pl-5"></i>
           </div>
         </div>
       </div>
