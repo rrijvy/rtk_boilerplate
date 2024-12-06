@@ -22,9 +22,9 @@ const Login = () => {
           <div className="absolute top-4 right-3">
             <p>
               Not a member?
-              <a href="/register" className="text-sm text-blue-500 hover:underline pl-2">
+              <Link to="/register" className="text-sm text-blue-500 hover:underline pl-2">
                 Register now
-              </a>
+              </Link>
             </p>
           </div>
           <h1 className="text-3xl font-semibold mb-4 text-gray-800 text-center">Hello Again!</h1>
@@ -59,7 +59,7 @@ const Login = () => {
               />
             </div>
             <div className="mb-6 text-right">
-              <Link to="reset-password" className="text-sm text-blue-500 hover:underline">
+              <Link to="/reset-password" className="text-sm text-blue-500 hover:underline">
                 Forget Password?
               </Link>
               <button
