@@ -62,6 +62,12 @@ const Login = () => {
               <Link to="reset-password" className="text-sm text-blue-500 hover:underline">
                 Forget Password?
               </Link>
+              <button
+                type="submit"
+                className="w-full bg-red-400 text-white py-3 mt-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              >
+                Sign in
+              </button>
             </div>
           </form>
           <div className="relative flex items-center my-10">
