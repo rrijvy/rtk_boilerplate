@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import LoginBackground from "../assets/images/login-background.png";
 
 const Login = () => {
@@ -59,15 +60,9 @@ const Login = () => {
             </div>
             <div className="mb-6 text-right">
               <a href="/forgot-password" className="text-sm text-blue-500 hover:underline">
-                Recovery Password
+                Forget Password?
               </a>
             </div>
-            <button
-              type="submit"
-              className="w-full bg-red-400 text-white py-3 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
-            >
-              Sign in
-            </button>
           </form>
           <div className="relative flex items-center my-10">
             <div className="flex-grow border-t border-gray-300"></div>
