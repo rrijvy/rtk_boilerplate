@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom"; 
 import LoginBackground from "../assets/images/login-background.png";
 
 const Login = () => {
@@ -37,7 +38,7 @@ const Login = () => {
             Hello Again!
           </h1>
           <p className="text-sm text-gray-500 mb-6 text-center">
-            Welcome back you have been missed!
+            Welcome back, you've been missed!
           </p>
           <form onSubmit={handleSubmit}>
             <div className="mb-5 text-left">
@@ -75,30 +76,22 @@ const Login = () => {
               />
             </div>
             <div className="mb-6 text-right">
-              <a
-                href="/forgot-password"
+              <Link
+                to="/forgot-password" 
                 className="text-sm text-blue-500 hover:underline"
               >
-                Recovery Password
-              </a>
+                Forgot Password?
+              </Link>
             </div>
-            <button
-              type="submit"
-              className="w-full bg-red-400 text-white py-3 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
-            >
-              Sign in
-            </button>
+            <div className="flex items-center justify-between">
+              <button
+                type="submit"
+                className="w-full py-2 px-4 bg-blue-600 text-white rounded-xl hover:bg-blue-700"
+              >
+                Login
+              </button>
+            </div>
           </form>
-          <div className="relative flex items-center my-10">
-            <div className="flex-grow border-t border-gray-300"></div>
-            <span className="mx-4 text-sm text-gray-500">Or continue with</span>
-            <div className="flex-grow border-t border-gray-300"></div>
-          </div>
-          <div className="mt-6 flex justify-center">
-            <button className="flex items-center justify-center bg-gradient-to-r from-cyan-500 to-blue-500 text-white py-3 px-5 rounded shadow">
-              <i className="fa-brands fa-google"></i>
-            </button>
-          </div>
         </div>
       </div>
     </div>
