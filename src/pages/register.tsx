@@ -33,8 +33,16 @@ const paymentDetailsSchema = z.object({
     .nonempty("Card number is required"),
   expiryDate: z
     .string()
-    .regex(/^\d{2}\/\d{2}$/, "Expiry date must be in MM/YY format")
-    .nonempty("Expiry date is required"),
+    .nonempty("Expiry date is required")
+    .refine((value) => {
+      const [month, year] = value.split("/").map((part) => parseInt(part, 10));
+      if (!month || !year || month < 1 || month > 12) return false;
+      const currentDate = new Date();
+      const currentYear = parseInt(currentDate.getFullYear().toString().slice(-2), 10);
+      const currentMonth = currentDate.getMonth() + 1;
+
+      return year > currentYear || (year === currentYear && month >= currentMonth);
+    }, "Expiry date invalid"),
   cvv: z
     .string()
     .regex(/^\d{3}$/, "CVV must be 3 digits")
