@@ -4,6 +4,7 @@ import Login from "./pages/login";
 import Register from "./pages/register";
 import ResetPassword from "./pages/resetpassword";
 import StoryBot from "./pages/storyBot";
+import BookPage from "./pages/BookPage";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="register" element={<Register />} />
         <Route path="reset-password" element={<ResetPassword />} />
         <Route path="story-bot" element={<StoryBot />} />
+        <Route path="book" element={<BookPage />} />
       </Routes>
     </BrowserRouter>
   );
