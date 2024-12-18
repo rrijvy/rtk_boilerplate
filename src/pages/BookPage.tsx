@@ -13,7 +13,7 @@ import PageImage10 from "../assets/images/P10.png";
 
 const Book: React.FC = () => {
   return (
-    <div className="flex justify-center items-center h-screen bg-gradient-to-br from-cyan-300 via-blue-200 to-blue-400">
+    <div className="flex justify-center items-center h-screen bg-gradient-to-br from-cyan-300 via-blue-200 to-blue-400 overflow-hidden">
       <HTMLFlipBook
         width={650}
         height={650}

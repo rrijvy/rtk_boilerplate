@@ -4,7 +4,7 @@ import Login from "./pages/login";
 import Register from "./pages/register";
 import ResetPassword from "./pages/resetpassword";
 import StoryBot from "./pages/storyBot";
-import BookPage from "./pages/BookPage";
+import BookPage from "./pages/bookPage";
 
 function App() {
   return (
