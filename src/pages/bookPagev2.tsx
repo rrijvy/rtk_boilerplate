@@ -10,6 +10,11 @@ import PageImage7 from "../assets/images/P7.png";
 import PageImage8 from "../assets/images/P8.png";
 import PageImage9 from "../assets/images/P9.png";
 import PageImage10 from "../assets/images/P10.png";
+import PageImage11 from "../assets/images/P11.png";
+import PageImage12 from "../assets/images/P12.png";
+import PageImage13 from "../assets/images/P13.png";
+import PageImage14 from "../assets/images/P14.png";
+import PageImage15 from "../assets/images/P15.png";
 
 const Book: React.FC = () => {
   return (
@@ -68,6 +73,21 @@ const Book: React.FC = () => {
         </div>
         <div className="page">
           <img src={PageImage10} alt="Page 10" />
+        </div>
+        <div className="page">
+          <img src={PageImage11} alt="Page 11" />
+        </div>
+        <div className="page">
+          <img src={PageImage12} alt="Page 12" />
+        </div>
+        <div className="page">
+          <img src={PageImage13} alt="Page 13" />
+        </div>
+        <div className="page">
+          <img src={PageImage14} alt="Page 14" />
+        </div>
+        <div className="page">
+          <img src={PageImage15} alt="Page 15" />
         </div>
       </HTMLFlipBook>
     </div>
