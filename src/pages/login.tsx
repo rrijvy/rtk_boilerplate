@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { z } from "zod"; 
+import { z } from "zod";
 import LoginBackground from "../assets/images/login-background.png";
+import axios from "axios";
+import axiosInstance from "../api/axiosInstance";
 
 const emailRegex = /^[a-zA-Z]+[a-zA-Z0-9._%+-]*@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
@@ -11,29 +13,29 @@ const loginSchema = z.object({
     .email("Please enter a valid email address")
     .regex(emailRegex, "Please enter a valid email address")
     .nonempty("Email is required"),
-  password: z
-    .string()
-    .min(6, "Password should be at least 6 characters")
-    .nonempty("Password is required"),
+  password: z.string().min(6, "Password should be at least 6 characters").nonempty("Password is required"),
 });
-
-type FormData = z.infer<typeof loginSchema>;
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      const validatedData: FormData = loginSchema.parse({ email, password });
+      const validatedData = loginSchema.parse({ email, password });
 
       console.log("Login details:", validatedData);
 
       setErrors({});
-    } catch (error) {
+
+      const response = await axiosInstance.post("/user/login", validatedData);
+
+      console.log("Login successful:", response.data);
+      alert("Login successful!");
+    } catch (error: unknown) {
       if (error instanceof z.ZodError) {
         const errorMessages: { email?: string; password?: string } = {};
         error.errors.forEach((err) => {
@@ -44,6 +46,12 @@ const Login = () => {
           }
         });
         setErrors(errorMessages);
+      } else if (axios.isAxiosError(error)) {
+        console.error("API error:", error.response?.data || error.message);
+        alert("Login failed. Please check your credentials.");
+      } else {
+        console.error("Unexpected error:", error);
+        alert("An unexpected error occurred.");
       }
     }
   };
@@ -51,11 +59,7 @@ const Login = () => {
   return (
     <div className="flex min-h-screen">
       <div className="flex-1 relative h-screen">
-        <img
-          src={LoginBackground}
-          alt="Login Background"
-          className="w-full h-full object-cover opacity-90"
-        />
+        <img src={LoginBackground} alt="Login Background" className="w-full h-full object-cover opacity-90" />
       </div>
 
       <div className="flex-1 flex justify-center items-center bg-white p-6">
@@ -63,26 +67,16 @@ const Login = () => {
           <div className="absolute top-4 right-3">
             <p>
               Not a member?
-              <a
-                href="/register"
-                className="text-sm text-blue-500 hover:underline pl-2"
-              >
+              <a href="/register" className="text-sm text-blue-500 hover:underline pl-2">
                 Register now
               </a>
             </p>
           </div>
-          <h1 className="text-3xl font-semibold mb-4 text-gray-800 text-center">
-            Hello Again!
-          </h1>
-          <p className="text-sm text-gray-500 mb-6 text-center">
-            Welcome back you have been missed!
-          </p>
+          <h1 className="text-3xl font-semibold mb-4 text-gray-800 text-center">Hello Again!</h1>
+          <p className="text-sm text-gray-500 mb-6 text-center">Welcome back you have been missed!</p>
           <form onSubmit={handleSubmit}>
             <div className="mb-5 text-left">
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                 Email
               </label>
               <input
@@ -93,15 +87,10 @@ const Login = () => {
                 placeholder="name@gmail.com"
                 className="w-full mt-2 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
-              {errors.email && (
-                <p className="text-red-500 text-sm">{errors.email}</p>
-              )}
+              {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
             </div>
             <div className="mb-6 text-left">
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                 Password
               </label>
               <input
@@ -112,19 +101,14 @@ const Login = () => {
                 placeholder="Enter your password"
                 className="w-full mt-2 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
-              {errors.password && (
-                <p className="text-red-500 text-sm">{errors.password}</p>
-              )}
+              {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
             </div>
             <div className="mb-6 text-right">
               <Link to="reset-password" className="text-sm text-blue-500 hover:underline">
                 Forget Password?
               </Link>
             </div>
-            <button
-              type="submit"
-              className="w-full p-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg"
-            >
+            <button type="submit" className="w-full p-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg">
               Login
             </button>
           </form>
