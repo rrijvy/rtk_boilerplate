@@ -5,7 +5,7 @@ import { SvgApple, SvgGoogle } from "../assets/svg";
 const Login = () => {
   return (
     <div className="login-page min-h-screen flex flex-col">
-      <div className="hero-image w-full bg-cover">
+      <div className="hero-image w-full bg-cover shadow-inner">
         <img src={LoginBackground} alt="Login Background" className="w-full h-full object-fill opacity-90" />
       </div>
       <div className="login-body flex-1 flex flex-col items-center">
