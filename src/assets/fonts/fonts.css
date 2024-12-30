@@ -123,3 +123,33 @@
   font-weight: 600;
   src: url("./assets/fonts/Roboto-Bold.ttf") format("truetype");
 }
+
+@font-face {
+  font-family: "Fredoka";
+  font-weight: 300;
+  src: url("./assets/fonts/Fredoka-Light.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Fredoka";
+  font-weight: 350;
+  src: url("./assets/fonts/Fredoka-Medium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Fredoka";
+  font-weight: 400;
+  src: url("./assets/fonts/Fredoka-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Fredoka";
+  font-weight: 500;
+  src: url("./assets/fonts/Fredoka-SemiBold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Fredoka";
+  font-weight: 600;
+  src: url("./assets/fonts/Fredoka-Bold.ttf") format("truetype");
+}

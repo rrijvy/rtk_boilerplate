@@ -1,20 +1,20 @@
 import React from "react";
 import HTMLFlipBook from "react-pageflip";
-import PageImage1 from "../assets/images/P1.png";
-import PageImage2 from "../assets/images/P2.png";
-import PageImage3 from "../assets/images/P3.png";
-import PageImage4 from "../assets/images/P4.png";
-import PageImage5 from "../assets/images/P5.png";
-import PageImage6 from "../assets/images/P6.png";
-import PageImage7 from "../assets/images/P7.png";
-import PageImage8 from "../assets/images/P8.png";
-import PageImage9 from "../assets/images/P9.png";
-import PageImage10 from "../assets/images/P10.png";
-import PageImage11 from "../assets/images/P11.png";
-import PageImage12 from "../assets/images/P12.png";
-import PageImage13 from "../assets/images/P13.png";
-import PageImage14 from "../assets/images/P14.png";
-import PageImage15 from "../assets/images/P15.png";
+import PageImage1 from "../assets/images/omar_grandema/P1.png";
+import PageImage2 from "../assets/images/omar_grandema/P2.png";
+import PageImage3 from "../assets/images/omar_grandema/P3.png";
+import PageImage4 from "../assets/images/omar_grandema/P4.png";
+import PageImage5 from "../assets/images/omar_grandema/P5.png";
+import PageImage6 from "../assets/images/omar_grandema/P6.png";
+import PageImage7 from "../assets/images/omar_grandema/P7.png";
+import PageImage8 from "../assets/images/omar_grandema/P8.png";
+import PageImage9 from "../assets/images/omar_grandema/P9.png";
+import PageImage10 from "../assets/images/omar_grandema/P10.png";
+import PageImage11 from "../assets/images/omar_grandema/P11.png";
+import PageImage12 from "../assets/images/omar_grandema/P12.png";
+import PageImage13 from "../assets/images/omar_grandema/P13.png";
+import PageImage14 from "../assets/images/omar_grandema/P14.png";
+import PageImage15 from "../assets/images/omar_grandema/P15.png";
 
 const Book: React.FC = () => {
   return (
