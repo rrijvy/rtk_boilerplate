@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import { SvgApple, SvgGoogle } from "../assets/svg";
 
 const Login = () => {
+  const handleGoogleSignIn = () => {
+    window.location.href = "http://127.0.0.1:8000/auth/google";
+  };
   return (
     <div className="login-page min-h-screen flex flex-col">
       <div className="hero-image w-full bg-cover shadow-inner">
@@ -18,7 +21,10 @@ const Login = () => {
             <h1 className="text-3xl font-bold text-blue-900 mb-9">Log In to Sultan</h1>
           </div>
           <div className="space-y-6 mt-4">
-            <button className="w-full py-3 border border-blue-500 text-blue-400 text-lg font-600 rounded-lg flex items-center justify-center hover:bg-gray-200 gap-x-3">
+            <button
+              onClick={handleGoogleSignIn}
+              className="w-full py-3 border border-blue-500 text-blue-400 text-lg font-600 rounded-lg flex items-center justify-center hover:bg-gray-200 gap-x-3"
+            >
               <SvgGoogle /> Continue with Google
             </button>
             <button className="w-full py-3 border border-blue-500 text-blue-400 text-lg font-600 rounded-lg flex items-center justify-center hover:bg-gray-200 gap-x-3">
