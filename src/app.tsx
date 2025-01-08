@@ -5,6 +5,7 @@ import Register from "./pages/register";
 import ResetPassword from "./pages/resetpassword";
 import StoryBot from "./pages/storyBot";
 import PromptGenerator from "./pages/promptGenerator";
+import StoryGenerator from "./pages/storyGenerator";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="reset-password" element={<ResetPassword />} />
         <Route path="story-bot" element={<StoryBot />} />
         <Route path="prompt-generator" element={<PromptGenerator />} />
+        <Route path="story-generator" element={<StoryGenerator />} />
       </Routes>
     </BrowserRouter>
   );
