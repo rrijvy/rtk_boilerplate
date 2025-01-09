@@ -1,31 +1,10 @@
-import { createApi } from "@reduxjs/toolkit/query/react";
 import axiosBaseQuery from "../../core/axiosBaseQuery";
+import { createApi } from "@reduxjs/toolkit/query/react";
+import { LoginResponse, LoginRequest } from "../../core/models/loginSchema";
+import { UserRegistrationResponse, UserRegistrationRequest } from "../../core/models/userRegistrationSchema";
 
-interface LoginRequest {
-  username: string;
-  password: string;
-}
-
-interface LoginResponse {
-  access_token?: string;
-  token_type?: string;
-}
-
-interface UserRegistrationRequest {
-  username: string;
-  email: string;
-  password: string;
-  fullName: string;
-}
-
-interface UserRegistrationResponse {
-  username: string;
-  email: string;
-  fullName: string;
-}
-
-export const authApi = createApi({
-  reducerPath: "authApi",
+export const authQuery = createApi({
+  reducerPath: "authQuery",
   baseQuery: axiosBaseQuery(),
   endpoints: (builder) => ({
     login: builder.mutation<LoginResponse, LoginRequest>({
@@ -33,7 +12,6 @@ export const authApi = createApi({
         const formData = new FormData();
         formData.append("username", credentials.username);
         formData.append("password", credentials.password);
-
         return {
           url: "/auth/login",
           method: "POST",
@@ -56,4 +34,4 @@ export const authApi = createApi({
   }),
 });
 
-export const { useLoginMutation } = authApi;
+export const { useLoginMutation } = authQuery;

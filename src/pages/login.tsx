@@ -1,23 +1,19 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, Navigate } from "react-router";
 import LoginBackground from "../assets/images/login-background.png";
-import { useLoginMutation } from "../redux/queries/authQuery";
+import { useAuth } from "../core/hooks/useAuth";
 
 const Login = () => {
-  const navigate = useNavigate();
-
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const [login, { isLoading }] = useLoginMutation();
+  const auth = useAuth();
+
+  if (auth.token) return <Navigate to="/" />;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const response = await login({ username, password }).unwrap();
-    if (response.access_token) {
-      localStorage.setItem("token", response.access_token);
-      navigate("prompt-generator");
-    }
+    auth.signIn?.(username, password);
   };
 
   return (
@@ -75,7 +71,7 @@ const Login = () => {
                 type="submit"
                 className="w-full bg-red-400 text-white py-3 mt-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
               >
-                {isLoading ? "Logging in..." : "Login"}
+                Sign In
               </button>
             </div>
           </form>
