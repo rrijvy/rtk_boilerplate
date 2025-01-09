@@ -1,14 +1,23 @@
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import LoginBackground from "../assets/images/login-background.png";
+import { useLoginMutation } from "../redux/queries/authQuery";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
+  const navigate = useNavigate();
+
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [login, { isLoading }] = useLoginMutation();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Login details:", { email, password });
+    const response = await login({ username, password }).unwrap();
+    if (response.access_token) {
+      localStorage.setItem("token", response.access_token);
+      navigate("prompt-generator");
+    }
   };
 
   return (
@@ -31,15 +40,15 @@ const Login = () => {
           <p className="text-sm text-gray-500 mb-6 text-center">Welcome back you have been missed!</p>
           <form onSubmit={handleSubmit}>
             <div className="mb-5 text-left">
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Email
+              <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+                User Name
               </label>
               <input
-                type="email"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="name@gmail.com"
+                type="username"
+                id="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="username"
                 required
                 className="w-full mt-2 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
@@ -66,7 +75,7 @@ const Login = () => {
                 type="submit"
                 className="w-full bg-red-400 text-white py-3 mt-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
               >
-                Sign in
+                {isLoading ? "Logging in..." : "Login"}
               </button>
             </div>
           </form>
