@@ -8,7 +8,7 @@ const PromptGenerator = () => {
   const handleSubmit = async () => {
     setResponsePages([]);
 
-    const response = await fetch("http://localhost:8000/generateprompts", {
+    const response = await fetch("http://localhost:8000/generate-prompts", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
