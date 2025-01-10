@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { authQuery } from "./queries/authQuery";
 import { storyQuery } from "./queries/storyQuery";
 import { predictQuery } from "./queries/predictionQuery";
-import { replicateQuery } from "./queries/replicateQuery";
 
 const store = configureStore({
   reducer: {
@@ -12,10 +11,8 @@ const store = configureStore({
     [authQuery.reducerPath]: authQuery.reducer,
     [storyQuery.reducerPath]: storyQuery.reducer,
     [predictQuery.reducerPath]: predictQuery.reducer,
-    [replicateQuery.reducerPath]: replicateQuery.reducer,
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(authQuery.middleware, storyQuery.middleware, predictQuery.middleware, replicateQuery.middleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(authQuery.middleware, storyQuery.middleware, predictQuery.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
