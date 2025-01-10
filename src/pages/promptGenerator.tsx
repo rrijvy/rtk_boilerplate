@@ -101,7 +101,7 @@ const PromptGenerator = () => {
                   <span className="float-right">
                     {images[index] && (
                       <button className="mr-2" onClick={() => window.open(image?.output)}>
-                        <span className="pr-5">{image?.status}</span>
+                        <span className="pr-5 uppercase">{image?.status}</span>
                         <i className="fa-solid fa-image text-blue-500"></i>
                       </button>
                     )}
