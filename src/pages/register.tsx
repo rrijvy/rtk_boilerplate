@@ -352,7 +352,7 @@ const Register = () => {
 
   return (
     <div className="flex min-h-screen">
-      <div className="flex-1 flex justify-center items-center p-6">
+      <div className="flex-1 flex flex-col justify-center items-center p-6">
         <div className="w-full max-w-md p-10 rounded-xl shadow-sm">
           <h1 className="text-3xl font-semibold mb-2 text-gray-800 text-center">{stepHeaders[step - 1]}</h1>
 
