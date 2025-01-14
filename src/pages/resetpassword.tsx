@@ -1,5 +1,31 @@
 import { useState } from "react";
+import { z } from "zod";
 import LoginBackground from "../assets/images/login-background.png";
+
+type FormData = {
+  email: string;
+  confirmationCode: string;
+  newPassword: string;
+  confirmPassword: string;
+};
+
+const emailSchema = z.object({
+  email: z.string().email("Please enter a valid email address").nonempty("Email is required"),
+});
+
+const verificationCodeSchema = z.object({
+  confirmationCode: z.string().length(6, "Verification code must be 6 characters long").nonempty("Verification code is required"),
+});
+
+const passwordSchema = z
+  .object({
+    newPassword: z.string().min(6, "Password should be at least 6 characters").nonempty("New password is required"),
+    confirmPassword: z.string().nonempty("Confirm password is required"),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
 
 const StepIndicator = ({ currentStep, totalSteps }: { currentStep: number; totalSteps: number }) => {
   return (
@@ -13,26 +39,62 @@ const StepIndicator = ({ currentStep, totalSteps }: { currentStep: number; total
 
 const ResetPassword = () => {
   const [step, setStep] = useState(1);
-  const [email, setEmail] = useState("");
-  const [code, setCode] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [formData, setFormData] = useState<FormData>({
+    email: "",
+    confirmationCode: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const handleSubmitEmail = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Email submitted:", email);
-    setStep(2);
+  const handleInputChange = (key: string, value: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
   };
 
-  const handleSubmitCode = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Code submitted:", code);
-    setStep(3);
+  const handleValidation = () => {
+    try {
+      setErrors({});
+      switch (step) {
+        case 1:
+          emailSchema.parse({ email: formData.email });
+          break;
+        case 2:
+          verificationCodeSchema.parse({ confirmationCode: formData.confirmationCode });
+          break;
+        case 3:
+          passwordSchema.parse({
+            newPassword: formData.newPassword,
+            confirmPassword: formData.confirmPassword,
+          });
+          break;
+        default:
+          break;
+      }
+      return true;
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const errorMessages: Record<string, string> = {};
+        error.errors.forEach((err) => {
+          errorMessages[err.path[0] as string] = err.message;
+        });
+        setErrors(errorMessages);
+      }
+      return false;
+    }
   };
 
-  const handleSubmitPassword = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("New password submitted:", newPassword);
+    if (handleValidation()) {
+      if (step === 3) {
+        console.log("Form Submitted:", formData);
+      } else {
+        setStep((prev) => prev + 1);
+      }
+    }
   };
 
   const getHeaderText = () => {
@@ -61,7 +123,7 @@ const ResetPassword = () => {
           <h1 className="text-3xl font-semibold mb-4 text-gray-800 text-center">{getHeaderText()}</h1>
 
           {step === 1 && (
-            <form onSubmit={handleSubmitEmail}>
+            <form onSubmit={handleSubmit}>
               <div className="mb-4">
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                   Email Address
@@ -69,12 +131,13 @@ const ResetPassword = () => {
                 <input
                   type="email"
                   id="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={formData.email}
+                  onChange={(e) => handleInputChange("email", e.target.value)}
                   placeholder="Enter the email you registered with"
                   required
                   className="w-full mt-2 p-2 border border-gray-300 rounded"
                 />
+                {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
               </div>
               <button type="submit" className="w-full py-2 mt-4 bg-blue-500 text-white rounded">
                 Reset Password
@@ -83,21 +146,22 @@ const ResetPassword = () => {
           )}
 
           {step === 2 && (
-            <form onSubmit={handleSubmitCode}>
+            <form onSubmit={handleSubmit}>
               <div className="mb-4">
                 <p className="text-sm text-gray-500 text-center mt-4">A code was sent to your email.</p>
-                <label htmlFor="code" className="block text-sm font-medium text-gray-700 mt-6">
+                <label htmlFor="confirmationCode" className="block text-sm font-medium text-gray-700 mt-6">
                   Verification Code
                 </label>
                 <input
                   type="text"
-                  id="code"
-                  value={code}
-                  onChange={(e) => setCode(e.target.value)}
+                  id="confirmationCode"
+                  value={formData.confirmationCode}
+                  onChange={(e) => handleInputChange("confirmationCode", e.target.value)}
                   placeholder="Enter the verification code"
                   required
                   className="w-full mt-2 p-2 border border-gray-300 rounded"
                 />
+                {errors.confirmationCode && <p className="text-red-500 text-sm">{errors.confirmationCode}</p>}
               </div>
               <button type="submit" className="w-full py-2 mt-4 bg-blue-500 text-white rounded">
                 Continue
@@ -106,7 +170,7 @@ const ResetPassword = () => {
           )}
 
           {step === 3 && (
-            <form onSubmit={handleSubmitPassword}>
+            <form onSubmit={handleSubmit}>
               <div className="mb-4">
                 <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700">
                   New Password
@@ -114,12 +178,13 @@ const ResetPassword = () => {
                 <input
                   type="password"
                   id="newPassword"
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
+                  value={formData.newPassword}
+                  onChange={(e) => handleInputChange("newPassword", e.target.value)}
                   placeholder="Enter new password"
                   required
                   className="w-full mt-2 p-2 border border-gray-300 rounded"
                 />
+                {errors.newPassword && <p className="text-red-500 text-sm">{errors.newPassword}</p>}
               </div>
               <div className="mb-4">
                 <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
@@ -128,12 +193,13 @@ const ResetPassword = () => {
                 <input
                   type="password"
                   id="confirmPassword"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  value={formData.confirmPassword}
+                  onChange={(e) => handleInputChange("confirmPassword", e.target.value)}
                   placeholder="Confirm new password"
                   required
                   className="w-full mt-2 p-2 border border-gray-300 rounded"
                 />
+                {errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword}</p>}
               </div>
               <button type="submit" className="w-full py-2 mt-4 bg-blue-500 text-white rounded">
                 Reset Password
