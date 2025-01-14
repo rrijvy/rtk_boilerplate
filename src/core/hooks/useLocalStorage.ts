@@ -7,7 +7,7 @@ export const useLocalStorage = (keyName: string, defaultValue: string = "") => {
       if (value) {
         return value;
       } else {
-        window.localStorage.setItem(keyName, JSON.stringify(defaultValue));
+        window.localStorage.setItem(keyName, defaultValue);
         return defaultValue;
       }
     } catch {
@@ -16,7 +16,7 @@ export const useLocalStorage = (keyName: string, defaultValue: string = "") => {
   });
   const setToken = (newValue: string) => {
     try {
-      window.localStorage.setItem(keyName, JSON.stringify(newValue));
+      window.localStorage.setItem(keyName, newValue);
     } catch (err) {
       console.log(err);
     }

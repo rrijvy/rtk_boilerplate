@@ -1,15 +1,15 @@
-import axiosBaseQuery from "../../core/axiosBaseQuery";
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { StoryPromptResponse, StoryPromptRequest } from "../../core/models/storyPromptSchema";
+import { StoryPromptRequest } from "../../core/models/storyPromptSchema";
+import axiosAuthBaseQuery from "../../core/axiosAuthBaseQuery";
 
 export const storyQuery = createApi({
   reducerPath: "storyQuery",
-  baseQuery: axiosBaseQuery(),
+  baseQuery: axiosAuthBaseQuery(),
   endpoints: (builder) => ({
-    generatePrompts: builder.mutation<StoryPromptResponse, StoryPromptRequest>({
+    generatePrompts: builder.mutation<string[], StoryPromptRequest>({
       query: (storyData) => {
         return {
-          url: "/story/generate-prompts",
+          url: "/story/generate-prompts-json",
           method: "POST",
           data: storyData,
         };

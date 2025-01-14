@@ -3,14 +3,16 @@ import { UiReducer } from "./slices/uiSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { authQuery } from "./queries/authQuery";
 import { storyQuery } from "./queries/storyQuery";
+import { predictQuery } from "./queries/predictionQuery";
 
 const store = configureStore({
   reducer: {
     ui: UiReducer,
     [authQuery.reducerPath]: authQuery.reducer,
     [storyQuery.reducerPath]: storyQuery.reducer,
+    [predictQuery.reducerPath]: predictQuery.reducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(authQuery.middleware, storyQuery.middleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(authQuery.middleware, storyQuery.middleware, predictQuery.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
