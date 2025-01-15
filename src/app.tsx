@@ -4,18 +4,20 @@ import { ProtectedRoute } from "./components/protectedRoute";
 import Login from "./pages/login";
 import PromptGenerator from "./pages/promptGenerator";
 import StoryGenerator from "./pages/storyGenerator";
+import ContinueLogin from "./pages/continueLogin";
 
 function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
         <Routes>
-          <Route path="/" element={<ProtectedRoute />}>
+          <Route element={<ProtectedRoute />}>
             <Route path="/" element={<Navigate to={"prompt-generator"} />} />
             <Route path="prompt-generator" element={<PromptGenerator />} />
           </Route>
-          <Route path="/login" element={<Login />} />
+          <Route path="login" element={<Login />} />
           <Route path="story-generator" element={<StoryGenerator />} />
+          <Route path="google/provider/login-completed" element={<ContinueLogin />} />
 
           {/* <Route index element={<Dashboard />} />
           <Route path="dashboard" element={<Dashboard />} />

@@ -1,11 +1,18 @@
 import LoginBackground from "../assets/images/login.png";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { SvgApple, SvgGoogle } from "../assets/svg";
+import { useAuth } from "../core/hooks/useAuth";
 
 const Login = () => {
+  const auth = useAuth();
+
+  if (auth.token) return <Navigate to="/" />;
+
   const handleGoogleSignIn = () => {
-    window.location.href = "http://127.0.0.1:8000/auth/google";
+    const API_BASE_URL = import.meta.env.VITE_API_URL || "";
+    window.location.href = `${API_BASE_URL}/auth/google`;
   };
+
   return (
     <div className="login-page min-h-screen flex flex-col">
       <div className="hero-image w-full bg-cover shadow-inner">
