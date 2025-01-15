@@ -9,11 +9,10 @@ const PromptGenerator = () => {
   const [requestPrediction, { data: predictionResponse }] = useRequestPredictionMutation();
   const [requestPredictionStatus] = useRequestPredictionStatusMutation();
 
-  const intervalRef = useRef<number | null>(null);
+  const intervalRef = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
     if (!predictionResponse?.id) return;
-
     intervalRef.current = setInterval(async () => {
       try {
         const response = await requestPredictionStatus(predictionResponse.id);
@@ -32,7 +31,7 @@ const PromptGenerator = () => {
         if (status === "succeeded" || status === "failed") {
           if (intervalRef.current) {
             clearInterval(intervalRef.current);
-            intervalRef.current = null;
+            intervalRef.current = undefined;
           }
         }
       } catch (error) {
