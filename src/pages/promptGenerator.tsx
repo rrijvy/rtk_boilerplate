@@ -92,13 +92,12 @@ const PromptGenerator = () => {
         <div>
           {generatePromptsResponse?.map((prompt, index) => {
             const image = images.find((x) => x.sceneNo === index);
-
             return (
               <div key={index} className="mb-4 p-3 border rounded border-zinc-600">
                 <h4>
                   Page {index + 1}
                   <span className="float-right">
-                    {images[index] && (
+                    {image && image.output && (
                       <button className="mr-2" onClick={() => window.open(image?.output)}>
                         <span className="pr-5 uppercase">{image?.status}</span>
                         <i className="fa-solid fa-image text-blue-500"></i>
