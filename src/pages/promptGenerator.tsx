@@ -128,7 +128,7 @@ const PromptGenerator = () => {
                   <h4>
                     Page {index + 1}
                     <span className="float-right">
-                      {prediction?.status && <span>{prediction.status}</span>}
+                      {prediction?.status && <span className="mr-2">{prediction.status}</span>}
                       {prediction?.output && (
                         <button className="mr-2" onClick={() => showImage(prediction.predictionId)}>
                           <i className="fa-solid fa-image text-blue-500"></i>

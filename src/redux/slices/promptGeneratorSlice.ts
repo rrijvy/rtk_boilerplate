@@ -23,10 +23,13 @@ const uiSlice = createSlice({
   reducers: {
     queuePrompt: (state, actions: PayloadAction<IPromptQueue>) => {
       const index = state.promptQueue.findIndex((x) => x.storyId === actions.payload.storyId && x.sceneNo === actions.payload.sceneNo);
-      const existingPrompt = state.promptQueue[index];
-      if (existingPrompt.status === "starting" || existingPrompt.status === "processing") return state;
-      if (existingPrompt) state.promptQueue[index] = actions.payload;
-      else state.promptQueue.push(actions.payload);
+      if (index >= 0) {
+        const existingPrompt = state.promptQueue[index];
+        if (existingPrompt.status === "starting" || existingPrompt.status === "processing") return state;
+        if (existingPrompt) state.promptQueue[index] = actions.payload;
+      } else {
+        state.promptQueue.push(actions.payload);
+      }
     },
     updatePromptInQueue: (state, actions: PayloadAction<IPromptQueue>) => {
       for (let i = 0; i < state.promptQueue.length; i++) {
