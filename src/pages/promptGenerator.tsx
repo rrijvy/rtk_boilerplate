@@ -9,10 +9,12 @@ const PromptGenerator = () => {
   const dispatch = useAppDispatch();
   const store = useAppSelector((state) => ({ promptQueue: state.promptGenerator.promptQueue }), shallowEqual);
   const [storyText, setStoryText] = useState("");
-  const [generatePrompts, { data: generatePromptsResponse }] = useGeneratePromptsMutation();
+  const [generatePrompts, { isLoading, data: generatePromptsResponse }] = useGeneratePromptsMutation();
   const [requestPrediction] = useRequestPredictionMutation();
   const [requestPredictionStatus] = useRequestPredictionStatusMutation();
+  const [modalImageUrl, setModalImageUrl] = useState("");
 
+  const modalRef = useRef<HTMLDialogElement>(null);
   const intervalRef = useRef<NodeJS.Timeout>();
 
   const storyId = "6784e6cc9b2007bc3a214a45";
@@ -88,50 +90,68 @@ const PromptGenerator = () => {
     }
   };
 
+  const isPromptRunning = (sceneNo: number) =>
+    store.promptQueue.some((x) => (x.storyId === storyId && x.sceneNo === sceneNo && x.status === "starting") || x.status === "processing");
+
+  const showImage = (predictionId: string) => {
+    const prompt = store.promptQueue.find((x) => x.predictionId === predictionId);
+    if (prompt?.output) {
+      setModalImageUrl(prompt.output);
+      modalRef.current?.showModal();
+    }
+  };
+
   return (
-    <div className="container mx-auto px-4">
-      <p className="text-2xl text-center p-5">Generate Image Prompt from Story</p>
-      <textarea
-        className="border rounded border-gray-800 w-full mx-auto p-5"
-        rows={15}
-        onChange={(e) => setStoryText(e.target.value)}
-      ></textarea>
-      <button
-        type="button"
-        className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 w-full mt-5"
-        onClick={generateImageGenerationPrompts}
-      >
-        GENERATE PROMPT
-      </button>
-      <hr />
-      <div>
-        <h3>Response:</h3>
-        <div data-story_id={storyId}>
-          {generatePromptsResponse?.map((prompt, index) => {
-            const prediction = store.promptQueue.find((x) => x.storyId === storyId && x.sceneNo === index);
-            return (
-              <div key={index} className="mb-4 p-3 border rounded border-zinc-600">
-                <h4>
-                  Page {index + 1}
-                  <span className="float-right">
-                    {prediction && (
-                      <button className="mr-2" onClick={() => window.open(prediction?.output)}>
-                        <span className="pr-5 uppercase">{prediction?.status}</span>
-                        <i className="fa-solid fa-image text-blue-500"></i>
+    <>
+      <div className="container mx-auto px-4">
+        <p className="text-2xl text-center p-5">Generate Image Prompt from Story</p>
+        <textarea
+          className="border rounded border-gray-800 w-full mx-auto p-5"
+          rows={15}
+          onChange={(e) => setStoryText(e.target.value)}
+        ></textarea>
+        <button
+          type="button"
+          className="btn btn-outline btn-info w-full mt-5"
+          onClick={generateImageGenerationPrompts}
+        >
+          GENERATE PROMPT
+        </button>
+        <hr className="my-5" />
+        <div>
+          <h3>Response: {isLoading && <span>Loading...</span>}</h3>
+          <div data-story_id={storyId}>
+            {generatePromptsResponse?.map((prompt, index) => {
+              const prediction = store.promptQueue.find((x) => x.storyId === storyId && x.sceneNo === index);
+              return (
+                <div key={index} className="mb-4 p-3 border rounded border-zinc-600">
+                  <h4>
+                    Page {index + 1}
+                    <span className="float-right">
+                      {prediction?.status && <span className="mr-2">{prediction.status}</span>}
+                      {prediction?.output && (
+                        <button className="mr-2" onClick={() => showImage(prediction.predictionId)}>
+                          <i className="fa-solid fa-image text-blue-500"></i>
+                        </button>
+                      )}
+                      <button onClick={() => sendPrediction(storyId, prompt, index)}>
+                        <i className={`fa-brands fa-docker ${isPromptRunning(index) ? "text-green-500" : "text-blue-500"}`}></i>
                       </button>
-                    )}
-                    <button onClick={() => sendPrediction(storyId, prompt, index)}>
-                      <i className="fa-brands fa-docker text-blue-500"></i>
-                    </button>
-                  </span>
-                </h4>
-                <p>{prompt}</p>
-              </div>
-            );
-          })}
+                    </span>
+                  </h4>
+                  <p>{prompt}</p>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
-    </div>
+      <dialog ref={modalRef} className="modal">
+        <div className="modal-box">
+          <img src={modalImageUrl} />
+        </div>
+      </dialog>
+    </>
   );
 };
 
