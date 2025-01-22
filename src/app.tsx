@@ -5,6 +5,8 @@ import Login from "./pages/login";
 import PromptGenerator from "./pages/promptGenerator";
 import StoryGenerator from "./pages/storyGenerator";
 import ContinueLogin from "./pages/continueLogin";
+import RTKQueryTestPage from "./pages/rtkQueryTestPage";
+import TestPage from "./pages/testPage";
 
 function App() {
   return (
@@ -18,7 +20,8 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="story-generator" element={<StoryGenerator />} />
           <Route path="google/provider/login-completed" element={<ContinueLogin />} />
-
+          <Route path="rtk-query-test" element={<RTKQueryTestPage />} />
+          <Route path="test" element={<TestPage />} />
           {/* <Route index element={<Dashboard />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="register" element={<Register />} />
