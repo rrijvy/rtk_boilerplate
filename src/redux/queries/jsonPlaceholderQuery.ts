@@ -57,7 +57,54 @@ export const jsonPlaceholderApi = createApi({
         return { data: undefined };
       },
     }),
+    deleteItemAtIndex: builder.mutation<void, number>({
+      queryFn: async (index, { dispatch }) => {
+        dispatch(
+          jsonPlaceholderApi.util.updateQueryData("getPosts", undefined, (draft) => {
+            if (index >= 0 && index < draft.length) {
+              draft.splice(index, 1); // Remove the item at the given index
+            }
+          })
+        );
+        return { data: undefined };
+      },
+    }),
+    addNewItem: builder.mutation<void, void>({
+      queryFn: async (_, { dispatch }) => {
+        dispatch(
+          jsonPlaceholderApi.util.updateQueryData("getPosts", undefined, (draft) => {
+            draft.push({
+              id: draft.length + 1, // Generate a new unique ID
+              title: `New Post ${draft.length + 1}`,
+              body: "This is a new post added to the list",
+            });
+          })
+        );
+        return { data: undefined };
+      },
+    }),
+    reorderItem: builder.mutation<void, number>({
+      queryFn: async (indexToMove, { dispatch }) => {
+        dispatch(
+          jsonPlaceholderApi.util.updateQueryData("getPosts", undefined, (draft) => {
+            if (indexToMove >= 0 && indexToMove < draft.length) {
+              const item = draft.splice(indexToMove, 1)[0];
+              draft.unshift(item); // Move it to the top
+            }
+          })
+        );
+        return { data: undefined };
+      },
+    }),
   }),
 });
 
-export const { useGetPostsQuery, useClearPostsCacheMutation, useRemoveFirstPostMutation, useRemoveLastPostMutation } = jsonPlaceholderApi;
+export const {
+  useGetPostsQuery,
+  useClearPostsCacheMutation,
+  useRemoveFirstPostMutation,
+  useRemoveLastPostMutation,
+  useDeleteItemAtIndexMutation,
+  useAddNewItemMutation,
+  useReorderItemMutation,
+} = jsonPlaceholderApi;

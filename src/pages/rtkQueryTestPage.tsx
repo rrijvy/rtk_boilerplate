@@ -5,26 +5,32 @@ import {
   useRemoveFirstPostMutation,
   useRemoveLastPostMutation,
   useClearPostsCacheMutation,
+  useReorderItemMutation,
+  useDeleteItemAtIndexMutation,
+  useAddNewItemMutation,
 } from "../redux/queries/jsonPlaceholderQuery";
 
 const RTKQueryTestPage = () => {
   const [fetchEnabled, setFetchEnabled] = useState(true);
-  const {
-    data: posts,
-    error,
-    isLoading,
-  } = useGetPostsQuery(undefined, {
-    skip: !fetchEnabled,
-  });
+  const [reorderIndex, setReorderIndex] = useState("");
+  const [deleteIndex, setDeleteIndex] = useState("");
+  const { data: posts, error, isLoading } = useGetPostsQuery(undefined, { skip: !fetchEnabled });
   const [removeFirstPost] = useRemoveFirstPostMutation();
   const [removeLastPost] = useRemoveLastPostMutation();
   const [clearPostsCache] = useClearPostsCacheMutation();
+  const [reorderItem] = useReorderItemMutation();
+  const [deleteItemAtIndex] = useDeleteItemAtIndexMutation();
+  const [addNewItem] = useAddNewItemMutation();
   const navigate = useNavigate();
 
   if (isLoading) return <p>Loading...</p>;
-  if (error) {
-    return <p>{error instanceof Error ? error.message : "An error occurred."}</p>;
-  }
+  if (error) return <p>{error instanceof Error ? error.message : "An error occurred."}</p>;
+
+  // Input validation and conversion helpers
+  const parseIndex = (input: string): number => {
+    const parsed = parseInt(input, 10);
+    return isNaN(parsed) ? -1 : parsed;
+  };
 
   return (
     <div>
@@ -67,12 +73,68 @@ const RTKQueryTestPage = () => {
         Remove Last
       </button>
 
+      <div>
+        <h3>Reorder Item</h3>
+        <input type="number" placeholder="Enter index to reorder" value={reorderIndex} onChange={(e) => setReorderIndex(e.target.value)} />
+        <button
+          onClick={async () => {
+            const index = parseIndex(reorderIndex);
+            if (index >= 0 && index < (posts?.length || 0)) {
+              try {
+                await reorderItem(index);
+              } catch (error) {
+                console.error("Failed to reorder the item:", error);
+              }
+            } else {
+              alert("Invalid index!");
+            }
+          }}
+        >
+          Reorder to Top
+        </button>
+      </div>
+
+      <div>
+        <h3>Delete Item</h3>
+        <input type="number" placeholder="Enter index to delete" value={deleteIndex} onChange={(e) => setDeleteIndex(e.target.value)} />
+        <button
+          onClick={async () => {
+            const index = parseIndex(deleteIndex);
+            if (index >= 0 && index < (posts?.length || 0)) {
+              try {
+                await deleteItemAtIndex(index);
+              } catch (error) {
+                console.error("Failed to delete the item:", error);
+              }
+            } else {
+              alert("Invalid index!");
+            }
+          }}
+        >
+          Delete
+        </button>
+      </div>
+
+      <button
+        onClick={async () => {
+          try {
+            await addNewItem(); // Add a new item to the list
+          } catch (error) {
+            console.error("Failed to add a new item:", error);
+          }
+        }}
+      >
+        Add New Item
+      </button>
+
       <h1>Posts</h1>
       {posts && (
         <ul>
-          {posts.map((post) => (
+          {posts.map((post, index) => (
             <li key={post.id}>
-              <h3>{post.title}</h3>
+              <h3>
+                #{index + 1}: {post.title}
+              </h3>
               <p>{post.body}</p>
             </li>
           ))}
