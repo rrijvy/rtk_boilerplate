@@ -96,6 +96,23 @@ export const jsonPlaceholderApi = createApi({
         return { data: undefined };
       },
     }),
+    upsertData: builder.mutation<void, Post>({
+      queryFn: async (newPost, { dispatch }) => {
+        dispatch(
+          jsonPlaceholderApi.util.updateQueryData("getPosts", undefined, (draft) => {
+            const index = draft.findIndex((post) => post.id === newPost.id);
+            if (index >= 0) {
+              // Update existing post
+              draft[index] = newPost;
+            } else {
+              // Add new post
+              draft.push(newPost);
+            }
+          })
+        );
+        return { data: undefined };
+      },
+    }),
   }),
 });
 
@@ -107,4 +124,5 @@ export const {
   useDeleteItemAtIndexMutation,
   useAddNewItemMutation,
   useReorderItemMutation,
+  useUpsertDataMutation,
 } = jsonPlaceholderApi;

@@ -8,12 +8,17 @@ import {
   useReorderItemMutation,
   useDeleteItemAtIndexMutation,
   useAddNewItemMutation,
+  useUpsertDataMutation,
 } from "../redux/queries/jsonPlaceholderQuery";
 
 const RTKQueryTestPage = () => {
   const [fetchEnabled, setFetchEnabled] = useState(true);
   const [reorderIndex, setReorderIndex] = useState("");
   const [deleteIndex, setDeleteIndex] = useState("");
+  const [upsertId, setUpsertId] = useState(""); // New state for Upsert ID
+  const [upsertTitle, setUpsertTitle] = useState(""); // New state for Upsert Title
+  const [upsertBody, setUpsertBody] = useState(""); // New state for Upsert Body
+
   const { data: posts, error, isLoading } = useGetPostsQuery(undefined, { skip: !fetchEnabled });
   const [removeFirstPost] = useRemoveFirstPostMutation();
   const [removeLastPost] = useRemoveLastPostMutation();
@@ -21,6 +26,7 @@ const RTKQueryTestPage = () => {
   const [reorderItem] = useReorderItemMutation();
   const [deleteItemAtIndex] = useDeleteItemAtIndexMutation();
   const [addNewItem] = useAddNewItemMutation();
+  const [upsertData] = useUpsertDataMutation();
   const navigate = useNavigate();
 
   if (isLoading) return <p>Loading...</p>;
@@ -126,6 +132,30 @@ const RTKQueryTestPage = () => {
       >
         Add New Item
       </button>
+
+      <div>
+        <h3>Upsert Post</h3>
+        <input type="number" placeholder="Enter Post ID" value={upsertId} onChange={(e) => setUpsertId(e.target.value)} />
+        <input type="text" placeholder="Enter Post Title" value={upsertTitle} onChange={(e) => setUpsertTitle(e.target.value)} />
+        <input type="text" placeholder="Enter Post Body" value={upsertBody} onChange={(e) => setUpsertBody(e.target.value)} />
+        <button
+          onClick={async () => {
+            const id = parseIndex(upsertId);
+            if (id <= 0 || !upsertTitle || !upsertBody) {
+              alert("Invalid input!");
+              return;
+            }
+            try {
+              await upsertData({ id, title: upsertTitle, body: upsertBody });
+              alert("Post upserted successfully!");
+            } catch (error) {
+              console.error("Failed to upsert the post:", error);
+            }
+          }}
+        >
+          Upsert Post
+        </button>
+      </div>
 
       <h1>Posts</h1>
       {posts && (
